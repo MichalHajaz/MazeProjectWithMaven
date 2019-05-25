@@ -1,12 +1,13 @@
 public enum MoveOption {
 
-    UP(-1, 0, '↑'), RIGHT(0, 1, '→'), DOWN(1, 0, '↓'), LEFT(0, -1, '←'), BOOKMARK;
+    UP(-1, 0, 'U'), RIGHT(0, 1, 'R'), DOWN(1, 0, 'D'), LEFT(0, -1, 'L'), BOOKMARK('B');
 
     int dir_y;
     int dir_x;
     char direction;
 
-    MoveOption() {
+    MoveOption(char direction) {
+        this.direction = direction;
     }
 
     MoveOption(int dir_y, int dir_x, char direction) {

@@ -4,7 +4,7 @@ public class PlayerFactory {
         if (mazeSize.getColLocation() <= 5 && mazeSize.getRowLocation() <= 5) {
             System.out.println("Playing with a Noob Player");
             return new NoobPlayer();
-        } else if (mazeSize.getColLocation() * mazeSize.getRowLocation() >= maxSteps) {
+        } else if (mazeSize.getColLocation() * mazeSize.getRowLocation() * 4 >= maxSteps) {
             System.out.println("Playing with a an Intermediate Player");
             return new IntermediatePlayer();
         } else {

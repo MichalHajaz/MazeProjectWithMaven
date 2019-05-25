@@ -5,11 +5,6 @@ public class Maze {
     private int columns;
     private char[][] maze = new char[rows][columns];
 
-    public Maze(char[][] maze, int maxSteps) {
-        this.maze = maze;
-        this.maxSteps = maxSteps;
-    }
-
     public int getMaxSteps() {
         return maxSteps;
     }
@@ -28,6 +23,18 @@ public class Maze {
 
     public int getColumns() {
         return columns;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public void setColumns(int columns) {
+        this.columns = columns;
+    }
+
+    public void setMaze(char[][] maze) {
+        this.maze = maze;
     }
 
     public Location getPlayerLocation() {

@@ -1,8 +1,8 @@
 public interface PlayerInterface {
 
-    public MoveOption move();
+    MoveOption move();
 
-    public void hitWall();
+    void hitWall();
 
-    public void hitBookmark(int seq);
+    void hitBookmark(int seq);
 }
