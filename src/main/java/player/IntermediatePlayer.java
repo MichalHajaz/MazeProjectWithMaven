@@ -1,3 +1,7 @@
+package player;
+
+import maze.MoveOption;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,18 +70,6 @@ public class IntermediatePlayer implements PlayerInterface {
             lastMove = moveSelection();
         }
         return lastMove;
-    }
-
-    public MoveOption getLastMove() {
-        return lastMove;
-    }
-
-    public int getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public boolean isHitWall() {
-        return hitWall;
     }
 
     @Override

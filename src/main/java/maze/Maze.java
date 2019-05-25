@@ -1,3 +1,5 @@
+package maze;
+
 public class Maze {
 
     private int maxSteps;
@@ -74,9 +76,4 @@ public class Maze {
     public char getCharAt(Location location) {
         return maze[location.getRowLocation()][location.getColLocation()];
     }
-
-    public void setCharAt(Location location, char character) {
-        maze[location.getRowLocation()][location.getColLocation()] = character;
-    }
-
 }

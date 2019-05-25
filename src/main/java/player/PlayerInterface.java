@@ -1,3 +1,7 @@
+package player;
+
+import maze.MoveOption;
+
 public interface PlayerInterface {
 
     MoveOption move();

@@ -1,3 +1,7 @@
+package player;
+
+import maze.MoveOption;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,26 +14,6 @@ public class AdvancedPlayer implements PlayerInterface {
     private MoveOption lastMove;
     private boolean isBookmark = false;
     private boolean hitBookmark = false;
-
-    public Map<Integer, ArrayList<MoveOption>> getBookmarks() {
-        return bookmarks;
-    }
-
-    public int getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public MoveOption getLastMove() {
-        return lastMove;
-    }
-
-    public boolean isBookmark() {
-        return isBookmark;
-    }
-
-    public boolean getHitBookmark() {
-        return hitBookmark;
-    }
 
     @Override
     public MoveOption move() {
@@ -47,7 +31,7 @@ public class AdvancedPlayer implements PlayerInterface {
 
     @Override
     public void hitWall() {
-        System.out.println("You have hit Wall");
+        System.out.println("You have hit a Wall");
         isBookmark = true;
     }
 
@@ -55,7 +39,7 @@ public class AdvancedPlayer implements PlayerInterface {
     public void hitBookmark(int seq) {
         hitBookmark = true;
         bookmarkCheck(seq);
-        System.out.println("You have hit Bookmark");
+        System.out.println("You have hit a Bookmark");
     }
 
     private void bookmarkCheck(int sequence) {

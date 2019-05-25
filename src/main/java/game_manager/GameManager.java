@@ -1,3 +1,13 @@
+package game_manager;
+
+import files.OutputFile;
+import maze.Location;
+import maze.Maze;
+import maze.MazeChar;
+import maze.MoveOption;
+import player.PlayerFactory;
+import player.PlayerInterface;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -6,7 +16,6 @@ import java.util.Map;
 public class GameManager {
 
     private static final char PLAYER = MazeChar.PLAYER.getValue();
-    private static final char WIN = MazeChar.WIN.getValue();
     private static final char WALL = MazeChar.WALL.getValue();
     private static final char PATHWAY = MazeChar.PATHWAY.getValue();
     private Maze maze;
@@ -31,30 +40,10 @@ public class GameManager {
         endingLocation = maze.getEndingLocation();
     }
 
-    public Location getPlayerLocation() {
-        return playerLocation;
-    }
-
     public void setPlayerLocation(Location nextLocation) {
         maze.getMaze()[playerLocation.getRowLocation()][playerLocation.getColLocation()] = PATHWAY;
         maze.getMaze()[nextLocation.getRowLocation()][nextLocation.getColLocation()] = PLAYER;
         this.playerLocation = nextLocation;
-    }
-
-    public int getSteps() {
-        return steps;
-    }
-
-    public boolean isHasWon() {
-        return hasWon;
-    }
-
-    public int getBookmarkCount() {
-        return bookmarkCount;
-    }
-
-    public Map<Location, Integer> getBookmarks() {
-        return bookmarks;
     }
 
     public void createOutputFile(BufferedWriter outputFile) {
@@ -135,18 +124,4 @@ public class GameManager {
         }
         throw new IllegalArgumentException();
     }
-
-    /*private Location moveOutsideMaze(MoveOption move) {
-
-        if ((playerLocation.getRowLocation() + move.getDir_y()) < 0) {
-            return new Location(maze.getMaze().length - 1, playerLocation.getColLocation());
-        } else if ((playerLocation.getRowLocation() + move.getDir_y()) > maze.getMaze().length - 1) {
-            return new Location(0, playerLocation.getColLocation());
-        } else if ((playerLocation.getColLocation() + move.getDir_x()) < 0) {
-            return new Location(playerLocation.getRowLocation(), maze.getMaze()[0].length - 1);
-        } else if ((playerLocation.getColLocation() + move.getDir_x()) > maze.getMaze()[0].length - 1) {
-            return new Location(playerLocation.getRowLocation(), 0);
-        } else
-            return new Location(playerLocation.getRowLocation() + move.getDir_y(), playerLocation.getColLocation() + move.getDir_x());
-    }*/
 }

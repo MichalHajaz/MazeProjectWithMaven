@@ -1,3 +1,7 @@
+package player;
+
+import maze.Location;
+
 public class PlayerFactory {
 
     public PlayerInterface createNewPlayer(Location mazeSize, int maxSteps) {

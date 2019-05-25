@@ -1,3 +1,5 @@
+package maze;
+
 public enum MazeChar {
 
     PLAYER('@'),
