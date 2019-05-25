@@ -1,0 +1,8 @@
+Intermediate Player maze.Maze
+MaxSteps = 100
+Rows = 4
+Cols = 10
+#####      
+# @ #    #
+#   #  $ #
+    ##### 

@@ -2,7 +2,7 @@ package maze;
 
 import files.FileParser;
 import files.InputFile;
-import game_manager.GameLoad;
+import game_manager.LoadGame;
 
 public class Run {
 
@@ -13,9 +13,9 @@ public class Run {
         if (args.length < 2) {
             System.out.println("Missing output file");
         } else {
-            GameLoad gameLoad = new GameLoad();
+            LoadGame loadGame = new LoadGame();
             FileParser fileParser = new InputFile();
-            gameLoad.loadGame(args,fileParser);
+            loadGame.loadGame(args,fileParser);
         }
     }
 }
