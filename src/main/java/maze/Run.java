@@ -2,7 +2,7 @@ package maze;
 
 import files.FileParser;
 import files.InputFile;
-import game_manager.GameLoad;
+import game_manager.LoadGame;
 
 public class Run {
 
