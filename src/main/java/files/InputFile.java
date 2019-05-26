@@ -18,6 +18,9 @@ public class InputFile implements FileParser {
     private static final char WALL = MazeChar.WALL.getValue();
     private static final char PATHWAY = MazeChar.PATHWAY.getValue();
     private static final int MIN_MAZE_SIZE = 5;
+    private static final int MAX_STEPS_LINE = 2;
+    private static final int ROWS_LINE = 3;
+    private static final int COLUMNS_LINE = 4;
     private ArrayList<String> mazeResult = new ArrayList<>();
     private List<String> errors;
 
@@ -41,27 +44,27 @@ public class InputFile implements FileParser {
     @Override
     public Maze getMaze(File fileInput) {
         Maze maze = null;
-        readFromFile(fileInput);
+        readFile(fileInput);
 
         if (mazeResult.size() < MIN_MAZE_SIZE) {
             errors.add("Insufficient size. maze.Maze cannot be created");
             return maze;
         }
 
-        int maxSteps = numberOf("MaxSteps", 2);
-        int rows = numberOf("Rows", 3);
-        int cols = numberOf("Cols", 4);
+        int maxSteps = numberOf("MaxSteps", MAX_STEPS_LINE);
+        int rows = numberOf("Rows", ROWS_LINE);
+        int cols = numberOf("Cols", COLUMNS_LINE);
 
-        boolean isMaxValid = isMaxStepsValid(maxSteps);
-        boolean isRowsColsValid = isRowsColsValid(rows, cols);
+        boolean isMaxStepsValid = isMaxStepsValid(maxSteps);
+        boolean isRowsAndColsValid = isRowsAndColsValid(rows, cols);
         boolean isMazeValid = isMazeValid();
 
-        if (isMaxValid && isRowsColsValid && isMazeValid) {
+        if (isMaxStepsValid && isRowsAndColsValid && isMazeValid) {
             maze = new Maze();
             maze.setMaxSteps(maxSteps);
             maze.setRows(rows);
             maze.setColumns(cols);
-            maze.setMaze(fillMaze(rows, cols));
+            maze.setMaze(generateMaze(rows, cols));
         } else {
             errors.add(("Invalid maze data. maze.Maze cannot be created"));
         }
@@ -74,7 +77,7 @@ public class InputFile implements FileParser {
         this.errors = errorsList;
     }
 
-    private void readFromFile(File fileInput) {
+    private void readFile(File fileInput) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileInput))) {
             readFromFile(br);
 
@@ -155,7 +158,7 @@ public class InputFile implements FileParser {
         return isValid;
     }
 
-    private char[][] fillMaze(int rows, int cols) {
+    private char[][] generateMaze(int rows, int cols) {
         char[][] mazeMap = new char[rows][cols];
         ArrayList<String> mazeArray = new ArrayList<>();
         for (int i = 4; i < mazeResult.size(); i++) {
@@ -197,7 +200,7 @@ public class InputFile implements FileParser {
         return true;
     }
 
-    private boolean isRowsColsValid(int row, int col) {
+    private boolean isRowsAndColsValid(int row, int col) {
         if ((row < 1 && col < 2) || (row < 2 && col < 1)) {
             errors.add(("Bad maze file header: expected in lines 3,4 - minimum 1 row and 2 columns or 2 rows and 1 column in a maze "
                     + "\n" + "got: " + mazeResult.get(2) + " " + mazeResult.get(3)));
