@@ -59,7 +59,7 @@ public class GameManager {
         return hasWon;
     }
 
-    private void makeMove(MoveOption move) {
+    public void makeMove(MoveOption move) {
         Location newLocation = moveOutsideMaze(move);
         char charInLocation = maze.getCharAt(newLocation);
         if (charInLocation == WALL) {
