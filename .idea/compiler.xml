@@ -9,5 +9,8 @@
         <module name="MazeProject" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="MazeProject" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
