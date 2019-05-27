@@ -1,3 +1,7 @@
+package player;
+
+import maze.MoveOption;
+
 import java.util.Random;
 
 public class NoobPlayer implements PlayerInterface {

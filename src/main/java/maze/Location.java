@@ -1,4 +1,4 @@
-import java.util.Objects;
+package maze;
 
 import static java.util.Objects.hash;
 
@@ -16,16 +16,8 @@ public class Location {
         return rowLocation;
     }
 
-    public void setRowLocation(int rowLocation) {
-        this.rowLocation = rowLocation;
-    }
-
     public int getColLocation() {
         return colLocation;
-    }
-
-    public void setColLocation(int colLocation) {
-        this.colLocation = colLocation;
     }
 
     @Override
@@ -45,7 +37,7 @@ public class Location {
 
     @Override
     public String toString() {
-        return "Location{" +
+        return "maze.Location{" +
                 "colLocation=" + colLocation +
                 ", rowLocation=" + rowLocation +
                 '}';
