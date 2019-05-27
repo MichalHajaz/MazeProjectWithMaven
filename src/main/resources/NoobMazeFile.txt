@@ -1,0 +1,8 @@
+Noob Player maze.Maze
+MaxSteps = 10
+Rows = 4
+Cols = 4
+####
+# @#
+#   
+#  $
