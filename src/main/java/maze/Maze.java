@@ -7,6 +7,16 @@ public class Maze {
     private int columns;
     private char[][] maze = new char[rows][columns];
 
+
+    public Maze(char[][] maze, int maxSteps) {
+        this.maze = maze;
+        this.maxSteps = maxSteps;
+    }
+
+    public Maze(){
+
+    }
+
     public int getMaxSteps() {
         return maxSteps;
     }

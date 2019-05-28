@@ -1,24 +1,30 @@
+import game_manager.GameManager;
+import maze.Location;
+import maze.Maze;
+import maze.MoveOption;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.junit.runner.RunWith;
 
-import static org.mockito.Mockito.verify;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import player.NoobPlayer;
+import player.PlayerFactory;
+
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class GameManagerTest {
 
 
     private char[][] testMaze = {
             {'#', '#', '#', '#', '#', ' ', ' ', ' ', ' ', ' '},
-            {'#', '@', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#'},
-            {'#', '$', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#'},
-            {'#', ' ', ' ', ' ', '#', ' ', ' ', '$', ' ', '#'},
-            {' ', ' ', ' ', ' ', '#', '#', '#', '#', '#', ' '}
+            {'#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#'},
+            {'#', ' ', '@', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
+            {'#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#'},
+            {' ', ' ', '$', ' ', '#', '#', '#', '#', '#', ' '}
 
     };
 
@@ -30,19 +36,18 @@ public class GameManagerTest {
     @Mock
     PlayerFactory playerFactory;
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
+  /*  @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();*/
 
 
     @Before
     public void setUp(){
-
-        when(playerFactory.createNewPlayer(maze.getPlayerLocation(),10)).thenReturn(player);
+        when(playerFactory.createNewPlayer(maze.getPlayerLocation(),2)).thenReturn(player);
         gameManager = new GameManager(maze,playerFactory);
 
     }
 
-    Maze maze = new Maze(testMaze, 10);
+    Maze maze = new Maze(testMaze, 2);
     GameManager gameManager;
 
 
@@ -50,44 +55,45 @@ public class GameManagerTest {
     @Test
     public void moveUpTest() {
 
-        Location up = new Location(-1,0);
+        Location expectedLocation = new Location(1,2);
         gameManager.makeMove(MoveOption.UP);
-        Assert.assertEquals(maze.getPlayerLocation(), up);
+        Assert.assertEquals(expectedLocation, maze.getPlayerLocation());
 
     }
 
     @Test
     public void moveDownTest() {
 
-        Location down = new Location(1,0);
+        Location expectedLocation = new Location(3,2);
         gameManager.makeMove(MoveOption.DOWN);
-        Assert.assertEquals(maze.getPlayerLocation(), down);
+        Assert.assertEquals(expectedLocation,maze.getPlayerLocation());
 
     }
 
     @Test
     public void moveRightTest() {
 
-        Location right = new Location(0,1);
-        gameManager.makeMove(MoveOption.DOWN);
-        Assert.assertEquals(maze.getPlayerLocation(), right);
+        Location expectedLocation = new Location(2,3);
+        gameManager.makeMove(MoveOption.RIGHT);
+        Assert.assertEquals(expectedLocation,maze.getPlayerLocation());
 
     }
 
     @Test
     public void moveLeftTest() {
-        Location left = new Location(0, -1);
+        Location expectedLocation = new Location(2, 1);
         gameManager.makeMove(MoveOption.LEFT);
-        Assert.assertEquals(maze.getPlayerLocation(), left);
+        Assert.assertEquals(expectedLocation, maze.getPlayerLocation());
 
     }
 
 
     @Test
     public void testPlayOverSteps() {
-
-
-
+        gameManager.makeMove(MoveOption.RIGHT);
+        gameManager.makeMove(MoveOption.RIGHT);
+        gameManager.makeMove(MoveOption.RIGHT);
+        Assert.assertFalse(gameManager.play());
 
     }
 
@@ -95,12 +101,12 @@ public class GameManagerTest {
     public void isHasWonTest() {
 
         gameManager.makeMove(MoveOption.DOWN);
-        gameManager.play();
+        gameManager.makeMove(MoveOption.DOWN);
         Assert.assertTrue(gameManager.isHasWon());
     }
 
     @Test
-    public void moveOutsideTheMazeTest(){
+    public void moveDirectionTest(){
 
 
     }
