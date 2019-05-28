@@ -1,9 +1,9 @@
+
 import game_manager.GameManager;
 import maze.Location;
 import maze.Maze;
 import maze.MoveOption;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,7 @@ public class GameManagerTest {
 
 
     private char[][] testMaze = {
-            {'#', '#', '#', '#', '#', ' ', ' ', ' ', ' ', ' '},
+            {'#', '#', '#', ' ', '#', ' ', ' ', ' ', ' ', ' '},
             {'#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#'},
             {'#', ' ', '@', ' ', ' ', ' ', ' ', ' ', ' ', '#'},
             {'#', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', '#'},
@@ -36,25 +36,28 @@ public class GameManagerTest {
     @Mock
     PlayerFactory playerFactory;
 
+
+
   /*  @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();*/
 
 
-    @Before
-    public void setUp(){
-        when(playerFactory.createNewPlayer(maze.getPlayerLocation(),2)).thenReturn(player);
+    public void setUp(int maxSteps){
+        when(playerFactory.createNewPlayer(maze.getPlayerLocation(),maxSteps)).thenReturn(player);
         gameManager = new GameManager(maze,playerFactory);
 
     }
 
     Maze maze = new Maze(testMaze, 2);
     GameManager gameManager;
+    private int maxSteps;
 
 
 
     @Test
     public void moveUpTest() {
 
+        setUp(2);
         Location expectedLocation = new Location(1,2);
         gameManager.makeMove(MoveOption.UP);
         Assert.assertEquals(expectedLocation, maze.getPlayerLocation());
@@ -64,6 +67,7 @@ public class GameManagerTest {
     @Test
     public void moveDownTest() {
 
+        setUp(2);
         Location expectedLocation = new Location(3,2);
         gameManager.makeMove(MoveOption.DOWN);
         Assert.assertEquals(expectedLocation,maze.getPlayerLocation());
@@ -73,6 +77,7 @@ public class GameManagerTest {
     @Test
     public void moveRightTest() {
 
+        setUp(2);
         Location expectedLocation = new Location(2,3);
         gameManager.makeMove(MoveOption.RIGHT);
         Assert.assertEquals(expectedLocation,maze.getPlayerLocation());
@@ -81,6 +86,8 @@ public class GameManagerTest {
 
     @Test
     public void moveLeftTest() {
+
+        setUp(2);
         Location expectedLocation = new Location(2, 1);
         gameManager.makeMove(MoveOption.LEFT);
         Assert.assertEquals(expectedLocation, maze.getPlayerLocation());
@@ -90,6 +97,8 @@ public class GameManagerTest {
 
     @Test
     public void testPlayOverSteps() {
+
+        setUp(2);
         gameManager.makeMove(MoveOption.RIGHT);
         gameManager.makeMove(MoveOption.RIGHT);
         gameManager.makeMove(MoveOption.RIGHT);
@@ -100,6 +109,7 @@ public class GameManagerTest {
     @Test
     public void isHasWonTest() {
 
+        setUp(2);
         gameManager.makeMove(MoveOption.DOWN);
         gameManager.makeMove(MoveOption.DOWN);
         Assert.assertTrue(gameManager.isHasWon());
@@ -107,6 +117,16 @@ public class GameManagerTest {
 
     @Test
     public void moveDirectionTest(){
+
+        setUp(10);
+
+        Location expectedLocation = new Location(0, 3);
+
+        gameManager.makeMove(MoveOption.RIGHT);
+        gameManager.makeMove(MoveOption.DOWN);
+        gameManager.makeMove(MoveOption.DOWN);
+        gameManager.makeMove(MoveOption.DOWN);
+        Assert.assertEquals(expectedLocation,maze.getPlayerLocation());
 
 
     }
