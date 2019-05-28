@@ -1,6 +1,7 @@
 import game_manager.GameManager;
 import maze.Maze;
 import maze.MoveOption;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,14 +34,10 @@ public class NoobPlayerTests {
     @Mock
     PlayerFactory playerFactory;
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
 
-    @Before
-    public void setUp(){
-
-        when(playerFactory.createNewPlayer(maze.getPlayerLocation(),10)).thenReturn(player);
+    public void setUp(int maxSteps){
+        when(playerFactory.createNewPlayer(maze.getPlayerLocation(),maxSteps)).thenReturn(player);
         gameManager = new GameManager(maze,playerFactory);
 
     }
@@ -48,24 +45,23 @@ public class NoobPlayerTests {
     Maze maze = new Maze(testMaze, 10);
     GameManager gameManager;
 
+
     @Test
     public void hitWallTest(){
 
+        setUp(5);
         gameManager.makeMove(MoveOption.UP);
-        Mockito.doAnswer((answer) -> {return null;}).when(player).hitWall();
-        verify(player, Mockito.times(1)).hitWall();
-
+        Assert.assertTrue(player.isHitWall());
     }
 
+    @Test
     public void testRandomMove(){
 
         gameManager.play();
 
-    }
-
-    public void hitBookmarks(){
 
 
 
     }
+
 }

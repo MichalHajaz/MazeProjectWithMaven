@@ -4,10 +4,8 @@ import maze.Location;
 import maze.Maze;
 import maze.MoveOption;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import player.NoobPlayer;
@@ -38,10 +36,6 @@ public class GameManagerTest {
 
 
 
-  /*  @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();*/
-
-
     public void setUp(int maxSteps){
         when(playerFactory.createNewPlayer(maze.getPlayerLocation(),maxSteps)).thenReturn(player);
         gameManager = new GameManager(maze,playerFactory);
@@ -50,7 +44,7 @@ public class GameManagerTest {
 
     Maze maze = new Maze(testMaze, 2);
     GameManager gameManager;
-    private int maxSteps;
+
 
 
 
