@@ -23,6 +23,7 @@ public class GameManager {
     private Location endingLocation;
     private int steps = 0;
     private boolean hasWon = false;
+    private boolean overMaxSteps = false;
     private int bookmarkCount = 0;
     private Map<Location, Integer> bookmarks = new HashMap<>();
     private OutputFile outputFile;
@@ -62,6 +63,7 @@ public class GameManager {
             System.out.println("You Have Won!");
         }else {
             outputFile.setWin('X');
+            overMaxSteps = true;
             System.out.println("You Have Lost!");
             System.out.println("You did not win the maze in the given amount of steps.\n" +
                     "Steps used: " + steps + ";\n" +
