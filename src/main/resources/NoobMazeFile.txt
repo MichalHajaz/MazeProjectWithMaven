@@ -1,5 +1,5 @@
 Noob Player
-MaxSteps = 10
+MaxSteps = 50
 Rows = 4
 Cols = 4
 ####

@@ -1,5 +1,5 @@
 Advanced Player
-MaxSteps = 1000
+MaxSteps = 500
 Rows = 4
 Cols = 10
 #####      
