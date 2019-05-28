@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface FileParser {
 
-        Maze getMaze(File fileIn);
+        Maze getMaze(File fileInput);
 
-        void setErrors(List<String> errorsList);
+        void setErrors(List<String> errors);
 
 }

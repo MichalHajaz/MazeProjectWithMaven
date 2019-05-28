@@ -7,7 +7,6 @@ import maze.MazeChar;
 import maze.MoveOption;
 import player.PlayerFactory;
 import player.PlayerInterface;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,9 +28,10 @@ public class GameManager {
     private OutputFile outputFile;
 
 
-    public GameManager(Maze maze, PlayerFactory newPlayer) {
+    GameManager(Maze maze, PlayerFactory newPlayer) {
         try {
             this.maze = maze;
+            this.outputFile = outputFile;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,7 +40,7 @@ public class GameManager {
         endingLocation = maze.getEndingLocation();
     }
 
-    public void setPlayerLocation(Location nextLocation) {
+    private void setPlayerLocation(Location nextLocation) {
         maze.getMaze()[playerLocation.getRowLocation()][playerLocation.getColLocation()] = PATHWAY;
         maze.getMaze()[nextLocation.getRowLocation()][nextLocation.getColLocation()] = PLAYER;
         this.playerLocation = nextLocation;
@@ -50,7 +50,7 @@ public class GameManager {
         this.outputFile = new OutputFile(outputFile);
     }
 
-    public boolean play() {
+    public void play() {
 
         while (!hasWon && steps < maze.getMaxSteps()) {
             MoveOption move = player.move();
@@ -74,7 +74,6 @@ public class GameManager {
             e.printStackTrace();
             System.out.println("Could not export to file");
         }
-        return hasWon;
     }
 
     private void makeMove(MoveOption move) {
@@ -110,18 +109,16 @@ public class GameManager {
     }
 
     private Location moveDirection(MoveOption move) {
-        switch (move){
-            case UP:
-                return new Location(Math.floorMod(playerLocation.getRowLocation() - 1, maze.getRows()), playerLocation.getColLocation());
-            case DOWN:
-                return new Location(Math.floorMod(playerLocation.getRowLocation() + 1, maze.getRows()), playerLocation.getColLocation());
-            case LEFT:
-                return new Location(playerLocation.getRowLocation(), Math.floorMod(playerLocation.getColLocation() - 1, maze.getColumns()));
-            case RIGHT:
-                return new Location(playerLocation.getRowLocation(), Math.floorMod(playerLocation.getColLocation() + 1, maze.getColumns()));
-            case BOOKMARK:
-                return playerLocation;
-        }
-        throw new IllegalArgumentException();
+
+        if ((playerLocation.getRowLocation() + move.getDir_y()) < 0) {
+            return new Location(maze.getMaze().length - 1, playerLocation.getColLocation());
+        } else if ((playerLocation.getRowLocation() + move.getDir_y()) > maze.getMaze().length - 1) {
+            return new Location(0, playerLocation.getColLocation());
+        } else if ((playerLocation.getColLocation() + move.getDir_x()) < 0) {
+            return new Location(playerLocation.getRowLocation(), maze.getMaze()[0].length - 1);
+        } else if ((playerLocation.getColLocation() + move.getDir_x()) > maze.getMaze()[0].length - 1) {
+            return new Location(playerLocation.getRowLocation(), 0);
+        } else
+            return new Location(playerLocation.getRowLocation() + move.getDir_y(), playerLocation.getColLocation() + move.getDir_x());
     }
 }

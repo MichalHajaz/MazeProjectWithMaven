@@ -1,4 +1,4 @@
-Noob Player maze.Maze
+Noob Player
 MaxSteps = 10
 Rows = 4
 Cols = 4

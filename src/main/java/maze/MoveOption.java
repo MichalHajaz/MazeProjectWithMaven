@@ -18,6 +18,14 @@ public enum MoveOption {
         this.direction = direction;
     }
 
+    public int getDir_x() {
+        return dir_x;
+    }
+
+    public int getDir_y() {
+        return dir_y;
+    }
+
     public char getDirection() {
         return direction;
     }

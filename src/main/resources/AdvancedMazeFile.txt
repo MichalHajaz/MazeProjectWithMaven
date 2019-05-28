@@ -1,4 +1,4 @@
-Advanced Player maze.Maze
+Advanced Player
 MaxSteps = 1000
 Rows = 4
 Cols = 10

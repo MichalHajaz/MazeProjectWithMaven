@@ -47,13 +47,13 @@ public class InputFile implements FileParser {
         readFile(fileInput);
 
         if (mazeResult.size() < MIN_MAZE_SIZE) {
-            errors.add("Insufficient size. maze.Maze cannot be created");
-            return maze;
+            errors.add("Insufficient size. Maze cannot be created");
+            return null;
         }
 
-        int maxSteps = numberOf("MaxSteps", MAX_STEPS_LINE);
-        int rows = numberOf("Rows", ROWS_LINE);
-        int cols = numberOf("Cols", COLUMNS_LINE);
+        int maxSteps = lineNumber("MaxSteps", MAX_STEPS_LINE);
+        int rows = lineNumber("Rows", ROWS_LINE);
+        int cols = lineNumber("Cols", COLUMNS_LINE);
 
         boolean isMaxStepsValid = isMaxStepsValid(maxSteps);
         boolean isRowsAndColsValid = isRowsAndColsValid(rows, cols);
@@ -66,45 +66,41 @@ public class InputFile implements FileParser {
             maze.setColumns(cols);
             maze.setMaze(generateMaze(rows, cols));
         } else {
-            errors.add(("Invalid maze data. maze.Maze cannot be created"));
+            errors.add(("Invalid maze data. Maze cannot be created"));
         }
 
         return maze;
     }
 
     @Override
-    public void setErrors(List<String> errorsList) {
-        this.errors = errorsList;
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
     }
 
     private void readFile(File fileInput) {
+        String fileReader;
         try (BufferedReader br = new BufferedReader(new FileReader(fileInput))) {
-            readFromFile(br);
-
-        } catch (FileNotFoundException e) {
+            while ((fileReader = br.readLine()) != null) {
+                if (fileReader.trim().length() > 0) {
+                    mazeResult.add(fileReader);
+                }
+            }
+        }
+        catch(FileNotFoundException e){
             errors.add(("File not found. Exception: " + e));
-        } catch (IOException e) {
+        } catch(IOException e){
             errors.add(("Reading from file failed: " + e));
         }
     }
 
-    void readFromFile(BufferedReader br) throws IOException {
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.trim().length() > 0) {
-                mazeResult.add(line);
-            }
-        }
-    }
-
-    private int numberOf(String key, int lineNumber) {
+    private int lineNumber(String key, int lineNumber) {
         int index = lineNumber - 1;
         if (index < mazeResult.size()) {
             String line = mazeResult.get(index).trim();
             String[] strs = line.split("=");
             String num = strs[1].trim();
             if (strs.length != 2 || !strs[0].trim().equals(key) || !num.matches("[0-9]+")) {
-                errors.add(("Bad maze file header: expected in line " + lineNumber + " - " + key + " = <num>" + "\n" + " got: " + line));
+                errors.add(("Bad maze file header: expected in line " + lineNumber + "; " + key + " = <num>" + "\n" + ". Actual: " + line));
                 return -1;
             }
             try {
@@ -117,8 +113,8 @@ public class InputFile implements FileParser {
     }
 
     private boolean isMazeValid() {
-        boolean isMazeValid = false;
-        boolean isCharValid = true;
+        boolean mazeValid = false;
+        boolean charValid = true;
         int countPlayerChar = 0;
         int countEndChar = 0;
 
@@ -134,15 +130,15 @@ public class InputFile implements FileParser {
                     countEndChar++;
                 } else if (mazeChar != WALL && mazeChar != PATHWAY) {
                     errors.add(("Wrong character in maze: " + mazeChar + " in row " + (i + 1) + ", col " + (j + 1)));
-                    isCharValid = false;
+                    charValid = false;
                 }
             }
         }
 
-        if (isCharCountValid(countPlayerChar, PLAYER) && isCharCountValid(countEndChar, WIN) && isCharValid) {
-            isMazeValid = true;
+        if (isCharCountValid(countPlayerChar, PLAYER) && isCharCountValid(countEndChar, WIN) && charValid) {
+            mazeValid = true;
         }
-        return isMazeValid;
+        return mazeValid;
     }
 
     private boolean isCharCountValid(int count, char mazeChar) {
@@ -165,7 +161,6 @@ public class InputFile implements FileParser {
             mazeArray.add(mazeResult.get(i));
         }
 
-        //add spaces for missing columns
         for (int i = 0; i < mazeArray.size(); i++) {
             String str = mazeArray.get(i);
             if (str.length() < cols) {
@@ -174,7 +169,6 @@ public class InputFile implements FileParser {
             }
         }
 
-        //add spaces for missing rows
         if (rows > mazeArray.size()) {
             int rowsToAdd = rows - mazeArray.size();
             for (int i = 0; i < rowsToAdd; i++) {
@@ -182,7 +176,6 @@ public class InputFile implements FileParser {
             }
         }
 
-        //fill maze map
         for (int row = 0; row < mazeMap.length; row++) {
             for (int col = 0; col < mazeMap[row].length; col++) {
                 mazeMap[row][col] = mazeArray.get(row).charAt(col);
