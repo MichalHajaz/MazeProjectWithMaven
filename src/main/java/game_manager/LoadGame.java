@@ -40,11 +40,11 @@ public class LoadGame {
         }
     }
 
-    public void addError(String error){
+    private void addError(String error){
         errors.add(error);
     }
 
-    public void start(Maze maze, File fileOut) {
+    private void start(Maze maze, File fileOut) {
         try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(fileOut))) {
             PlayerFactory playerFactory = new PlayerFactory();
             GameManager gameManager = new GameManager(maze, playerFactory);

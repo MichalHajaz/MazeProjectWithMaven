@@ -7,7 +7,6 @@ import maze.MazeChar;
 import maze.MoveOption;
 import player.PlayerFactory;
 import player.PlayerInterface;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,11 +28,13 @@ public class GameManager {
     private OutputFile outputFile;
 
 
+
     public boolean isHasWon() {
         return hasWon;
     }
 
     public GameManager(Maze maze, PlayerFactory newPlayer) {
+
         try {
             this.maze = maze;
         } catch (Exception e) {
@@ -44,7 +45,7 @@ public class GameManager {
         endingLocation = maze.getEndingLocation();
     }
 
-    public void setPlayerLocation(Location nextLocation) {
+    private void setPlayerLocation(Location nextLocation) {
         maze.getMaze()[playerLocation.getRowLocation()][playerLocation.getColLocation()] = PATHWAY;
         maze.getMaze()[nextLocation.getRowLocation()][nextLocation.getColLocation()] = PLAYER;
         this.playerLocation = nextLocation;
@@ -54,7 +55,7 @@ public class GameManager {
         this.outputFile = new OutputFile(outputFile);
     }
 
-    public boolean play() {
+    public void play() {
 
         while (!hasWon && steps < maze.getMaxSteps()) {
             MoveOption move = player.move();
@@ -78,7 +79,7 @@ public class GameManager {
             e.printStackTrace();
             System.out.println("Could not export to file");
         }
-        return hasWon;
+        
     }
 
     public void makeMove(MoveOption move) {
@@ -114,6 +115,7 @@ public class GameManager {
     }
 
     private Location moveDirection(MoveOption move) {
+
         if ((playerLocation.getRowLocation() + move.getDir_y()) < 0) {
             return new Location(maze.getMaze().length - 1, playerLocation.getColLocation());
         } else if ((playerLocation.getRowLocation() + move.getDir_y()) > maze.getMaze().length - 1) {
