@@ -98,11 +98,11 @@ public class GameManagerTest {
     @Test
     public void testPlayOverSteps() {
 
-        setUp(2);
-        gameManager.makeMove(MoveOption.RIGHT);
-        gameManager.makeMove(MoveOption.RIGHT);
-        gameManager.makeMove(MoveOption.RIGHT);
-        Assert.assertFalse(gameManager.play());
+        setUp(1);
+        gameManager.play();
+        gameManager.play();
+        Assert.assertTrue(gameManager.isOverMaxSteps());
+
 
     }
 
