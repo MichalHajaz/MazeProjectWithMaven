@@ -1,5 +1,5 @@
 Intermediate Player
-MaxSteps = 200
+MaxSteps = 220
 Rows = 4
 Cols = 10
 #####      
