@@ -53,15 +53,4 @@ public class NoobPlayerTests {
         gameManager.makeMove(MoveOption.UP);
         Assert.assertTrue(player.isHitWall());
     }
-
-    @Test
-    public void testRandomMove(){
-
-        gameManager.play();
-
-
-
-
-    }
-
 }

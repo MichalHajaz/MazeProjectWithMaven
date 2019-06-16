@@ -5,7 +5,7 @@ import maze.Maze;
 import java.io.File;
 import java.util.List;
 
-public interface FileParser {
+public interface IMazeFileParser {
 
         Maze getMaze(File fileInput);
 

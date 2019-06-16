@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class InputFile implements FileParser {
+public class MazeFileParser implements IMazeFileParser {
 
     private static final char PLAYER = MazeChar.PLAYER.getValue();
     private static final char WIN = MazeChar.WIN.getValue();

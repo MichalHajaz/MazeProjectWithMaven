@@ -40,11 +40,8 @@ public class GameManager {
 
     public GameManager(Maze maze, PlayerFactory newPlayer) {
 
-        try {
-            this.maze = maze;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.maze = maze;
+
         player = newPlayer.createNewPlayer(new Location(maze.getRows(), maze.getColumns()), maze.getMaxSteps());
         playerLocation = maze.getPlayerLocation();
         endingLocation = maze.getEndingLocation();
@@ -116,7 +113,7 @@ public class GameManager {
             System.out.println("Steps used so far: " + steps);
             maze.printMaze();
         } catch (Exception e) {
-            System.out.println("Move is outside maze");
+            System.out.println("Invalid Move");
         }
     }
 
