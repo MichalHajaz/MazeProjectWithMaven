@@ -7,6 +7,7 @@ import maze.MazeChar;
 import maze.MoveOption;
 import player.PlayerFactory;
 import player.PlayerInterface;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,15 +30,6 @@ public class GameManager {
     private OutputFile outputFile;
 
 
-
-    public boolean isOverMaxSteps(){
-        return overMaxSteps;
-    }
-
-    public boolean isHasWon() {
-        return hasWon;
-    }
-
     public GameManager(Maze maze, PlayerFactory newPlayer) {
 
         this.maze = maze;
@@ -45,6 +37,14 @@ public class GameManager {
         player = newPlayer.createNewPlayer(new Location(maze.getRows(), maze.getColumns()), maze.getMaxSteps());
         playerLocation = maze.getPlayerLocation();
         endingLocation = maze.getEndingLocation();
+    }
+
+    public boolean isOverMaxSteps() {
+        return overMaxSteps;
+    }
+
+    public boolean isHasWon() {
+        return hasWon;
     }
 
     private void setPlayerLocation(Location nextLocation) {
@@ -64,10 +64,10 @@ public class GameManager {
             makeMove(move);
             outputFile.updateMoves(move);
         }
-        if (hasWon){
+        if (hasWon) {
             outputFile.setWin('!');
             System.out.println("You Have Won!");
-        }else {
+        } else {
             outputFile.setWin('X');
             overMaxSteps = true;
             System.out.println("You Have Lost!");
@@ -78,11 +78,11 @@ public class GameManager {
         outputFile.printMoves();
         try {
             outputFile.exportToFile();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Could not export to file");
         }
-        
+
     }
 
     public void makeMove(MoveOption move) {
@@ -113,21 +113,24 @@ public class GameManager {
             System.out.println("Steps used so far: " + steps);
             maze.printMaze();
         } catch (Exception e) {
-            System.out.println("Invalid Move");
+            throw new IllegalArgumentException("Invalid Move");
         }
     }
 
     private Location moveDirection(MoveOption move) {
 
-        if ((playerLocation.getRowLocation() + move.getDir_y()) < 0) {
-            return new Location(maze.getMaze().length - 1, playerLocation.getColLocation());
-        } else if ((playerLocation.getRowLocation() + move.getDir_y()) > maze.getMaze().length - 1) {
-            return new Location(0, playerLocation.getColLocation());
-        } else if ((playerLocation.getColLocation() + move.getDir_x()) < 0) {
-            return new Location(playerLocation.getRowLocation(), maze.getMaze()[0].length - 1);
-        } else if ((playerLocation.getColLocation() + move.getDir_x()) > maze.getMaze()[0].length - 1) {
-            return new Location(playerLocation.getRowLocation(), 0);
-        } else
-            return new Location(playerLocation.getRowLocation() + move.getDir_y(), playerLocation.getColLocation() + move.getDir_x());
+        switch (move) {
+            case UP:
+                return new Location(Math.floorMod(playerLocation.getRowLocation() - 1, maze.getRows()), playerLocation.getColLocation());
+            case DOWN:
+                return new Location(Math.floorMod(playerLocation.getRowLocation() + 1, maze.getRows()), playerLocation.getColLocation());
+            case LEFT:
+                return new Location(playerLocation.getRowLocation(), Math.floorMod(playerLocation.getColLocation() - 1, maze.getColumns()));
+            case RIGHT:
+                return new Location(playerLocation.getRowLocation(), Math.floorMod(playerLocation.getColLocation() + 1, maze.getColumns()));
+            case BOOKMARK:
+                return playerLocation;
+        }
+        throw new IllegalArgumentException("");
     }
 }

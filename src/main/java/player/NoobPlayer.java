@@ -25,6 +25,7 @@ public class NoobPlayer implements PlayerInterface {
     public MoveOption move() {
 
         nextMove = randomMove();
+        hitWall = false;
         return nextMove;
     }
 
