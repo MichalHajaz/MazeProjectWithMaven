@@ -41,6 +41,20 @@ public class AdvancedPlayer implements IPlayer {
       //  System.out.println("You have hit a Bookmark");
     }
 
+
+    /**
+     * @param sequence
+     * This method verifies whether there is a bookmark in this location and adds bookmarks to bookmarks map.
+     * If no, add a bookmark to the map of bookmarks with the relevant sequence number and the relevant move option.
+     * If yes, check whether the move option appears in the relevant sequence number.
+     *      If no, add the move to the list of move options.
+     *      If yes, check whether the player is already on a bookmarked location.
+     *          If no, add the last move to the list of move options.
+     *          If yes, check which move was made and add it to the list of move options.
+     * Add the relevant sequence and its list of move options to the bookmarks map.
+     */
+
+
     private void bookmarkCheck(int sequence) {
         ArrayList<MoveOption> moves;
         if (bookmarks.isEmpty() || !bookmarks.containsKey(sequence)) {

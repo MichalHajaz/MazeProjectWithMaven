@@ -29,6 +29,7 @@ public class NoobPlayer implements IPlayer {
     public MoveOption move() {
 
         nextMove = randomMove();
+        hitWall = false;
         return nextMove;
     }
 
