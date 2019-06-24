@@ -115,7 +115,7 @@ public class Match {
 
         CommandLineParser commandLineParser = new CommandLineParser(args[1],args[3]);
 
-        //if(commandLineParser.validate(args)){
+        if(commandLineParser.validateArguments(args)){
 
             commandLineParser.init();
             Match match = new Match(commandLineParser.getPlayers(), commandLineParser.getMazes());
@@ -123,7 +123,9 @@ public class Match {
             match.runMatch(Integer.parseInt(args[5]));
             match.printReport();
 
-        //}
+        }
+
+
 
     }
 
