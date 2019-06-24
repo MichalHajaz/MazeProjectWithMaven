@@ -4,7 +4,7 @@ import maze.Location;
 
 public class PlayerFactory {
 
-    public PlayerInterface createNewPlayer(Location mazeSize, int maxSteps) {
+    public IPlayer createNewPlayer(Location mazeSize, int maxSteps) {
         if (mazeSize.getColLocation() <= 5 && mazeSize.getRowLocation() <= 5) {
             System.out.println("Playing with a Noob Player");
             return new NoobPlayer();

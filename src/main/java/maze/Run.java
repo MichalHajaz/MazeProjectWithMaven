@@ -1,7 +1,6 @@
 package maze;
 
-import files.FileParser;
-import files.InputFile;
+import files.MazeParser;
 import game_manager.LoadGame;
 
 public class Run {
@@ -14,7 +13,7 @@ public class Run {
             System.out.println("Missing output file");
         } else {
             LoadGame loadGame = new LoadGame();
-            FileParser fileParser = new InputFile();
+            MazeParser fileParser = new MazeParser();
             loadGame.loadGame(args,fileParser);
         }
     }

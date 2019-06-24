@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class InputFile implements FileParser {
+public class MazeParser {
 
     private static final char PLAYER = MazeChar.PLAYER.getValue();
     private static final char WIN = MazeChar.WIN.getValue();
@@ -21,8 +21,9 @@ public class InputFile implements FileParser {
     private static final int MAX_STEPS_LINE = 2;
     private static final int ROWS_LINE = 3;
     private static final int COLUMNS_LINE = 4;
+
     private ArrayList<String> mazeResult = new ArrayList<>();
-    private List<String> errors;
+    private List<String> errors = new ArrayList<>();
 
     private static String addCols(String str, int remain) {
         StringBuilder sb = new StringBuilder();
@@ -41,7 +42,6 @@ public class InputFile implements FileParser {
         return row.toString();
     }
 
-    @Override
     public Maze getMaze(File fileInput) {
         Maze maze = null;
         readFile(fileInput);
@@ -51,6 +51,8 @@ public class InputFile implements FileParser {
             return null;
         }
 
+
+        String name = mazeResult.get(0);
         int maxSteps = lineNumber("MaxSteps", MAX_STEPS_LINE);
         int rows = lineNumber("Rows", ROWS_LINE);
         int cols = lineNumber("Cols", COLUMNS_LINE);
@@ -65,6 +67,7 @@ public class InputFile implements FileParser {
             maze.setRows(rows);
             maze.setColumns(cols);
             maze.setMaze(generateMaze(rows, cols));
+            maze.setName(name);
         } else {
             errors.add(("Invalid maze data. Maze cannot be created"));
         }
@@ -72,17 +75,16 @@ public class InputFile implements FileParser {
         return maze;
     }
 
-    @Override
     public void setErrors(List<String> errors) {
         this.errors = errors;
     }
 
     private void readFile(File fileInput) {
-        String fileReader;
+        String line;
         try (BufferedReader br = new BufferedReader(new FileReader(fileInput))) {
-            while ((fileReader = br.readLine()) != null) {
-                if (fileReader.trim().length() > 0) {
-                    mazeResult.add(fileReader);
+            while ((line = br.readLine()) != null) {
+                if (line.trim().length() > 0) {
+                    mazeResult.add(line);
                 }
             }
         }

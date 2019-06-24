@@ -2,7 +2,7 @@ package player;
 
 import maze.MoveOption;
 
-public interface PlayerInterface {
+public interface IPlayer {
 
     MoveOption move();
 

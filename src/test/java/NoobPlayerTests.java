@@ -42,9 +42,8 @@ public class NoobPlayerTests {
 
     }
 
-    Maze maze = new Maze(testMaze, 10);
+    Maze maze = new Maze();
     GameManager gameManager;
-
 
     @Test
     public void hitWallTest(){

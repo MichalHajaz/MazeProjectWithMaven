@@ -42,7 +42,7 @@ public class GameManagerTest {
 
     }
 
-    Maze maze = new Maze(testMaze, 2);
+    Maze maze = new Maze();
     GameManager gameManager;
 
 

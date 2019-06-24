@@ -1,6 +1,6 @@
 package game_manager;
 
-import files.FileParser;
+import files.MazeParser;
 import maze.Maze;
 import player.PlayerFactory;
 
@@ -15,7 +15,7 @@ public class LoadGame {
 
     private List<String> errors;
 
-    public void loadGame(String[] args, FileParser fp) {
+    public void loadGame(String[] args, MazeParser fp) {
         errors = new ArrayList<>();
         Maze maze = null;
 

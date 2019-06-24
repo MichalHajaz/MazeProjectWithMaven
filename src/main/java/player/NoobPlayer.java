@@ -4,21 +4,25 @@ import maze.MoveOption;
 
 import java.util.Random;
 
-public class NoobPlayer implements PlayerInterface {
+public class NoobPlayer implements IPlayer {
+
+
 
 
     private boolean hitWall = false;
     private MoveOption nextMove;
 
+
+
     @Override
     public void hitWall() {
         hitWall = true;
-        System.out.println("You hit a Wall!");
+        //System.out.println("You hit a Wall!");
     }
 
     @Override
     public void hitBookmark(int seq) {
-        System.out.println("You hit a Bookmark!");
+        //System.out.println("You hit a Bookmark!");
     }
 
     @Override

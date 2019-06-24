@@ -6,15 +6,15 @@ public class Maze {
     private int rows;
     private int columns;
     private char[][] maze = new char[rows][columns];
+    private String name;
 
 
-    public Maze(char[][] maze, int maxSteps) {
-        this.maze = maze;
-        this.maxSteps = maxSteps;
+    public String getName() {
+        return name;
     }
 
-    public Maze(){
-
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getMaxSteps() {

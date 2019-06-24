@@ -31,8 +31,4 @@ public class OutputFile {
         }
 
     }
-
-    public void printMoves() {
-        System.out.print(moves.toString());
-    }
 }
