@@ -15,7 +15,7 @@ public class Match {
 
     private Set<Class<? extends IPlayer>> playersClasses;
     private List<Maze> mazes;
-    private Map<String, Map<String, Integer>> reportMap = new HashMap<>();
+    private Map<String, TreeMap<String, Integer>> reportMap = new TreeMap<>();
 
 
 
@@ -25,11 +25,11 @@ public class Match {
     }
 
 
-    private Map<String, Map<String, Integer>> loadTable() {
+    private Map<String, TreeMap<String, Integer>> loadTable() {
 
         for ( Class player : playersClasses) {
             for (Maze maze : mazes) {
-                Map<String, Integer> playersRes = new HashMap<>();
+                TreeMap<String, Integer> playersRes = new TreeMap<>(Comparator.naturalOrder());
                 playersRes.put(player.getClass().getSimpleName(), 0);
                 reportMap.put(maze.getName(), playersRes);
             }
@@ -57,7 +57,7 @@ public class Match {
                 for (Maze maze : mazes) {
                     GameManager gameManager = new GameManager(maze, player);
                     threadPool.execute(gameManager);
-                    Map<String, Integer> gameRes = new HashMap<>();
+                    TreeMap<String, Integer> gameRes = new TreeMap<>();
                     gameRes.put(player.getClass().getSimpleName(), gameManager.getGameResult());
                     reportMap.put(maze.getName(), gameRes);
                 }
@@ -78,18 +78,29 @@ public class Match {
 
 
         StringWriter returnString = new StringWriter();
-        for (Map.Entry<String, Map<String, Integer>> pair : reportMap.entrySet()){
+        boolean didPrintHeaders = false;
 
-            HashMap<String, Integer> hm = (HashMap<String, Integer>) pair.getValue();
-            String key = (String) pair.getKey();
-            returnString.append("|\t").append(key).append("\t|");
-            for (HashMap.Entry<String, Integer> pair2 : hm.entrySet()){
-                returnString.append("|\t").append(String.valueOf(pair2.getValue())).append("\t|");
+        for (Map.Entry<String, TreeMap<String, Integer>> pair : reportMap.entrySet()) {
+
+            if (!didPrintHeaders) {
+                StringBuilder playersName = new StringBuilder();
+                for (Map.Entry<String, Integer> pair1 : pair.getValue().entrySet()) {
+                    playersName.append(getPaddedString(pair1.getKey()) + " | ");
+                }
+                System.out.println(getPaddedString("Maze Name") + " | " + getPaddedString(playersName.toString()));
+                didPrintHeaders = true;
             }
-
-            returnString.append("\r\n");
+            StringBuilder mazeAndRes = new StringBuilder();
+            mazeAndRes.append(getPaddedString(pair.getKey())  + " | ");
+            for (Map.Entry<String, Integer> pair1 : pair.getValue().entrySet()) {
+                mazeAndRes.append(getPaddedString(String.valueOf(pair1.getValue()))).append(" | ");
+            }
+            System.out.println(mazeAndRes);
         }
-        returnString.toString();
+    }
+
+    private String getPaddedString(String string){
+        return String.format(" %-50s\t",string);
     }
 
     @Override
@@ -110,7 +121,7 @@ public class Match {
             Match match = new Match(commandLineParser.getPlayers(), commandLineParser.getMazes());
           //  match.loadTable();
             match.runMatch(Integer.parseInt(args[5]));
-           // match.printReport();
+            match.printReport();
 
         //}
 
