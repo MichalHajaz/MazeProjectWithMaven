@@ -78,4 +78,53 @@ public class CommandLineParser {
     }
 
 
+    public boolean validateArguments(String[] args) {
+
+        if(args.length == 0) {
+            System.out.println("No arguments in command line");
+            return false;
+        }
+
+        if(args.length % 2 !=0) {
+            System.out.println("Incorrect number of arguments in command line");
+            return false;
+        }
+
+        if (args.length == 2) {
+            System.out.println("Missing arguments in command line");
+            return false;
+        }
+        if (args.length > 6) {
+            System.out.println("Too many arguments in command line");
+            return false;
+        }
+        if (!args[0].equals("-mazes_folder")) {
+            System.out.println("Incorrect maze folder argument in command line. Should be '-mazes_folder'");
+            return false;
+        }
+
+        if (!args[2].equals("-players")) {
+            System.out.println("Incorrect players argument in command line. Should be '-players'");
+            return false;
+        }
+
+        if (args.length > 4) {
+            try {
+                if (!args[4].equals("-threads")) {
+                    System.out.println("Incorrect threads argument in command line. Should be '-threads'");
+                    return false;
+                }else if (!(Integer.parseInt(args[5]) > 0)){
+                    System.out.println("Incorrect number of threads. Should be larger than 0");
+                    return false;
+                }
+            }
+            catch (NumberFormatException e){
+                System.out.println("argument should be a valid number larger than 0");
+                return false;
+            }
+
+        }
+
+        return true;
+    }
 }
