@@ -31,8 +31,13 @@ public class GameManager implements Runnable {
     private int gameResult = 0;
     private PlayerFactory playerFactory;
 
+    public Maze getMaze() {
+        return maze;
+    }
 
-
+    public IPlayer getPlayer() {
+        return player;
+    }
 
     public GameManager(Maze maze, IPlayer player) {
         this.maze = maze;
