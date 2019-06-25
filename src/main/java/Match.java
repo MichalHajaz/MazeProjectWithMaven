@@ -1,12 +1,10 @@
 
-import java.io.StringWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
 import game_manager.GameManager;
 import maze.Maze;
 import player.IPlayer;
@@ -43,7 +41,6 @@ public class Match {
 
         ExecutorService threadPool = Executors.newFixedThreadPool(numThreads);
 
-
         for (Class<? extends IPlayer> playerClass : playersClasses) {
 
             Constructor<?> ctor = null;
@@ -63,7 +60,7 @@ public class Match {
 
         TreeMap<String, Integer> gameRes = new TreeMap<>();
 
-        for (GameManager gameManager: gameManagers) {
+        for (GameManager gameManager : gameManagers) {
             threadPool.execute(gameManager);
 
         }
@@ -75,7 +72,7 @@ public class Match {
             e.printStackTrace();
         }
 
-        for (GameManager gameManager: gameManagers) {
+        for (GameManager gameManager : gameManagers) {
             gameRes.put(gameManager.getPlayer().getClass().getSimpleName(), gameManager.getGameResult());
             reportMap.put(gameManager.getMaze().getName(), gameRes);
         }
@@ -86,6 +83,7 @@ public class Match {
     private void printReport() {
 
         boolean didPrintHeaders = false;
+
         for (Map.Entry<String, TreeMap<String, Integer>> gameReport : reportMap.entrySet()) {
 
             if (!didPrintHeaders) {
@@ -109,30 +107,14 @@ public class Match {
         return String.format(" %-50s\t", string);
     }
 
-    @Override
-    public String toString() {
-        return "Match{" +
-                "reportMap=" + reportMap +
-                '}';
-    }
-
     public static void main(String[] args) throws Exception {
-
 
         CommandLineParser commandLineParser = new CommandLineParser(args[1], args[3]);
 
-        if(commandLineParser.validateArguments(args)){
-
-        commandLineParser.init();
-        Match match = new Match(commandLineParser.getPlayers(), commandLineParser.getMazes());
-        //  match.loadTable();
-        match.runMatch(Integer.parseInt(args[5]));
-
+        if (commandLineParser.validateArguments(args)) {
+            commandLineParser.init();
+            Match match = new Match(commandLineParser.getPlayers(), commandLineParser.getMazes());
+            match.runMatch(Integer.parseInt(args[5]));
         }
-
-
-
     }
-
-
 }

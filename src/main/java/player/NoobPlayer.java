@@ -7,17 +7,16 @@ import java.util.Random;
 public class NoobPlayer implements IPlayer {
 
 
-
-
     private boolean hitWall = false;
     private MoveOption nextMove;
 
-
+    public MoveOption getNextMove() {
+        return nextMove;
+    }
 
     @Override
     public void hitWall() {
         hitWall = true;
-        //System.out.println("You hit a Wall!");
     }
 
     @Override
@@ -27,12 +26,10 @@ public class NoobPlayer implements IPlayer {
 
     @Override
     public MoveOption move() {
-
         nextMove = randomMove();
         hitWall = false;
         return nextMove;
     }
-
 
     private MoveOption randomMove() {
         MoveOption[] moveOptions = MoveOption.values();
@@ -49,13 +46,8 @@ public class NoobPlayer implements IPlayer {
         return moveOptions[generator.nextInt(moveOptions.length - 1)];
     }
 
-    public MoveOption getNextMove() {
-        return nextMove;
-    }
-
     public boolean isHitWall() {
         return hitWall;
     }
-
 
 }

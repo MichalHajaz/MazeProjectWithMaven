@@ -87,10 +87,9 @@ public class MazeParser {
                     mazeResult.add(line);
                 }
             }
-        }
-        catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             errors.add(("File not found. Exception: " + e));
-        } catch(IOException e){
+        } catch (IOException e) {
             errors.add(("Reading from file failed: " + e));
         }
     }

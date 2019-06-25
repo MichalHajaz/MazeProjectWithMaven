@@ -17,10 +17,8 @@ public class IntermediatePlayer implements IPlayer {
     private int bookmarkSequence = 0;
 
 
-
     @Override
     public void hitWall() {
-       // System.out.println("You have hit a Wall!");
         hitWall = true;
     }
 
@@ -28,19 +26,16 @@ public class IntermediatePlayer implements IPlayer {
         ArrayList<MoveOption> movesList;
         if (bookmarks.isEmpty() || bookmarks.containsKey(sequence)) {
             movesList = new ArrayList<>();
-           // System.out.println("You created a bookmark in sequence " + sequence);
         } else {
             movesList = bookmarks.get(sequence);
         }
         if (hitWall && !movesList.contains(lastMove)) {
             movesList.add(lastMove);
-          //  System.out.println("You have added " + lastMove + " in bookmark sequence " + sequence);
         }
-        //System.out.println("Unrecommended moves in bookmark sequence " + sequence + " are: " + movesList);
         bookmarks.put(sequence, movesList);
     }
 
-    private MoveOption moveSelection(){
+    private MoveOption moveSelection() {
         if (hitWall || isBookmark || (lastMove != null && lastMove.equals(MoveOption.BOOKMARK))) {
             ArrayList<MoveOption> moves = new ArrayList<>();
             int seqNumber;
@@ -56,10 +51,9 @@ public class IntermediatePlayer implements IPlayer {
                 }
             }
             MoveOption[] movesArray = moves.toArray(new MoveOption[0]);
-           // System.out.println("Select from the following options: " + moves);
             return movesArray[new Random().nextInt(movesArray.length - 1)];
         }
-        return new MoveOption[]{MoveOption.LEFT, MoveOption.RIGHT, MoveOption.UP, MoveOption.DOWN}[new Random().nextInt(MoveOption.values().length-1)];
+        return new MoveOption[]{MoveOption.LEFT, MoveOption.RIGHT, MoveOption.UP, MoveOption.DOWN}[new Random().nextInt(MoveOption.values().length - 1)];
     }
 
     @Override
@@ -76,7 +70,6 @@ public class IntermediatePlayer implements IPlayer {
 
     @Override
     public void hitBookmark(int seq) {
-      //  System.out.println("You have hit a Bookmark!");
         addBookmark(seq);
     }
 
@@ -84,7 +77,6 @@ public class IntermediatePlayer implements IPlayer {
         ArrayList<MoveOption> moves;
         if (bookmarks.isEmpty() || !bookmarks.containsKey(sequence)) {
             moves = new ArrayList<>();
-           // System.out.println("You have created a bookmark in sequence: " + sequence);
         } else {
             moves = bookmarks.get(sequence);
             isBookmark = true;
@@ -92,10 +84,8 @@ public class IntermediatePlayer implements IPlayer {
         }
         if (hitWall && !moves.contains(lastMove)) {
             moves.add(lastMove);
-           // System.out.println("You have added " + lastMove + " at bookmark sequence " + sequence);
         }
         hitWall = false;
-       // System.out.println("Unrecommended moves in bookmark sequence " + sequence + " are " + moves);
         bookmarks.put(sequence, moves);
     }
 

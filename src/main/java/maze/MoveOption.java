@@ -18,25 +18,15 @@ public enum MoveOption {
         this.direction = direction;
     }
 
-    public int getDir_y() {
-        return dir_y;
-    }
+    public int getDir_y() { return dir_y; }
 
-    public void setDir_y(int dir_y) {
-        this.dir_y = dir_y;
-    }
+    public void setDir_y(int dir_y) { this.dir_y = dir_y; }
 
-    public int getDir_x() {
-        return dir_x;
-    }
+    public int getDir_x() { return dir_x; }
 
-    public void setDir_x(int dir_x) {
-        this.dir_x = dir_x;
-    }
+    public void setDir_x(int dir_x) { this.dir_x = dir_x; }
 
-    public void setDirection(char direction) {
-        this.direction = direction;
-    }
+    public void setDirection(char direction) { this.direction = direction; }
 
     public char getDirection() {
         return direction;

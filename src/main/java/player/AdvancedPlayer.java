@@ -13,7 +13,6 @@ public class AdvancedPlayer implements IPlayer {
     private boolean hitBookmark = false;
 
 
-
     @Override
     public MoveOption move() {
         if (isBookmark) {
@@ -30,7 +29,6 @@ public class AdvancedPlayer implements IPlayer {
 
     @Override
     public void hitWall() {
-       // System.out.println("You have hit a Wall");
         isBookmark = true;
     }
 
@@ -38,20 +36,18 @@ public class AdvancedPlayer implements IPlayer {
     public void hitBookmark(int seq) {
         hitBookmark = true;
         bookmarkCheck(seq);
-      //  System.out.println("You have hit a Bookmark");
     }
 
 
     /**
-     * @param sequence
-     * This method verifies whether there is a bookmark in this location and adds bookmarks to bookmarks map.
-     * If no, add a bookmark to the map of bookmarks with the relevant sequence number and the relevant move option.
-     * If yes, check whether the move option appears in the relevant sequence number.
-     *      If no, add the move to the list of move options.
-     *      If yes, check whether the player is already on a bookmarked location.
-     *          If no, add the last move to the list of move options.
-     *          If yes, check which move was made and add it to the list of move options.
-     * Add the relevant sequence and its list of move options to the bookmarks map.
+     * @param sequence This method verifies whether there is a bookmark in this location and adds bookmarks to bookmarks map.
+     *                 If no, add a bookmark to the map of bookmarks with the relevant sequence number and the relevant move option.
+     *                 If yes, check whether the move option appears in the relevant sequence number.
+     *                 If no, add the move to the list of move options.
+     *                 If yes, check whether the player is already on a bookmarked location.
+     *                 If no, add the last move to the list of move options.
+     *                 If yes, check which move was made and add it to the list of move options.
+     *                 Add the relevant sequence and its list of move options to the bookmarks map.
      */
 
 
@@ -84,34 +80,33 @@ public class AdvancedPlayer implements IPlayer {
             }
         }
         bookmarks.put(sequence, moves);
-       // System.out.println("You have added a bookmark");
     }
 
-    private MoveOption moveSelection(){
+    private MoveOption moveSelection() {
         if (lastMove != null && lastMove.equals(MoveOption.BOOKMARK)) {
-            ArrayList <MoveOption> moves = getMoveOption();
+            ArrayList<MoveOption> moves = getMoveOption();
             for (MoveOption move : MoveOption.values()) {
 
-                  if (moves.contains(move)){
-                      moves.add(move);
+                if (moves.contains(move)) {
+                    moves.add(move);
                 }
 
             }
             MoveOption[] movesArray = moves.toArray(new MoveOption[0]);
-            return movesArray[new Random().nextInt(movesArray.length-1)];
+            return movesArray[new Random().nextInt(movesArray.length - 1)];
         }
 
-        return new MoveOption[]{MoveOption.LEFT, MoveOption.RIGHT, MoveOption.UP, MoveOption.DOWN}[new Random().nextInt(MoveOption.values().length-1)];
+        return new MoveOption[]{MoveOption.LEFT, MoveOption.RIGHT, MoveOption.UP, MoveOption.DOWN}[new Random().nextInt(MoveOption.values().length - 1)];
     }
 
-    private ArrayList<MoveOption> getMoveOption(){
+    private ArrayList<MoveOption> getMoveOption() {
 
         ArrayList<MoveOption> movesOptions = bookmarks.get(sequenceNumber);
-        if (movesOptions != null){
+        if (movesOptions != null) {
             return movesOptions;
         }
         movesOptions = new ArrayList<>();
-        bookmarks.put(sequenceNumber,movesOptions);
+        bookmarks.put(sequenceNumber, movesOptions);
 
         return movesOptions;
     }
