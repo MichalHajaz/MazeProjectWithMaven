@@ -4,9 +4,9 @@ import org.reflections.Reflections;
 import player.IPlayer;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Objects;
 import java.util.Set;
 
@@ -65,7 +65,6 @@ public class CommandLineParser {
         } catch (Exception e) {
             allFailureMazes.add(e);
             System.out.println(allFailureMazes + " " +  "Player/Maze not loaded!!!!");
-            System.out.println(" ");
         }
     }
 
