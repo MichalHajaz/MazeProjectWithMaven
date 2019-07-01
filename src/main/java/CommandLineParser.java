@@ -51,6 +51,9 @@ public class CommandLineParser {
 
         Reflections reflections = new Reflections("player");
         playersClasses = reflections.getSubTypesOf(IPlayer.class);
+        System.out.println(playersClasses);
+        playersClasses.removeIf((playersClass)->playersClass.isInterface());
+        System.out.println(playersClasses);
     }
 
     public void init() {

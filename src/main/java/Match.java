@@ -14,7 +14,7 @@ public class Match {
 
     private Set<Class<? extends IPlayer>> playersClasses;
     private List<Maze> mazes;
-    private Map<String, TreeMap<String, Integer>> reportMap = new TreeMap<>();
+    private Map<String, TreeMap<String, Integer>> reportMap;
     private List<GameManager> gameManagers = new ArrayList<>();
 
 
@@ -24,41 +24,40 @@ public class Match {
     }
 
 
-    private Map<String, TreeMap<String, Integer>> loadTable() {
-
-        for (Class player : playersClasses) {
-            for (Maze maze : mazes) {
-                TreeMap<String, Integer> playersRes = new TreeMap<>(Comparator.naturalOrder());
-                playersRes.put(player.getClass().getSimpleName(), 0);
-                reportMap.put(maze.getName(), playersRes);
+    private Map<String, TreeMap<String, Integer>> createTable() {
+        // maze => player => result
+        Map<String, TreeMap<String, Integer>> table = new TreeMap<>();
+        for (Maze maze : mazes) {
+            TreeMap<String, Integer> playersRes = new TreeMap<>(Comparator.naturalOrder());
+            table.put(maze.getName(), playersRes);
+            for (Class player : playersClasses) {
+                playersRes.put(player.getSimpleName(), 0);
             }
         }
-        return reportMap;
+        return table;
     }
 
 
-    public void runMatch(int numThreads) throws IllegalAccessException, InvocationTargetException, InstantiationException {
+    public void runMatch(int numThreads) {
 
         ExecutorService threadPool = Executors.newFixedThreadPool(numThreads);
 
         for (Class<? extends IPlayer> playerClass : playersClasses) {
 
-            Constructor<?> ctor = null;
+            IPlayer player = null;
             try {
-                ctor = playerClass.getConstructor();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
+                Constructor<?> ctor = playerClass.getConstructor();
+                 player = (IPlayer) ctor.newInstance();
+            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                System.out.println("Player not loaded well" + playerClass.getSimpleName());
+                continue;
             }
-            IPlayer player = (IPlayer) ctor.newInstance();
-
 
             for (Maze maze : mazes) {
                 GameManager gameManager = new GameManager(maze, player);
                 gameManagers.add(gameManager);
             }
         }
-
-        TreeMap<String, Integer> gameRes = new TreeMap<>();
 
         for (GameManager gameManager : gameManagers) {
             threadPool.execute(gameManager);
@@ -70,11 +69,14 @@ public class Match {
             threadPool.awaitTermination(5, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            //TODO shutdownNow ?
         }
 
+        reportMap = createTable();
         for (GameManager gameManager : gameManagers) {
-            gameRes.put(gameManager.getPlayer().getClass().getSimpleName(), gameManager.getGameResult());
-            reportMap.put(gameManager.getMaze().getName(), gameRes);
+            Map<String,Integer> gameRes = reportMap.get(gameManager.getMaze().getName());
+            gameRes.put(gameManager.getPlayer().getClass().getSimpleName(),gameManager.getGameResult());
+
         }
         printReport();
     }
