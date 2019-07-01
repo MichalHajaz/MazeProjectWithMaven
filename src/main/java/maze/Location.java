@@ -16,9 +16,7 @@ public class Location {
         return rowLocation;
     }
 
-    public int getColLocation() {
-        return colLocation;
-    }
+    public int getColLocation() { return colLocation; }
 
     @Override
     public boolean equals(Object o) {

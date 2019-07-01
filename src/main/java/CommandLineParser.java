@@ -4,9 +4,9 @@ import org.reflections.Reflections;
 import player.IPlayer;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,7 +15,9 @@ public class CommandLineParser {
     private String mazeFolder;
     private String playerPackage;
     private Set<Class<? extends IPlayer>> playersClasses;
-    private ArrayList <Maze> mazes = new ArrayList<>();
+    private ArrayList<Maze> mazes = new ArrayList<>();
+    private ArrayList<Exception> allFailureMazes = new ArrayList<>();
+
 
 
     public CommandLineParser(String mazeFolder, String playerP) {
@@ -23,13 +25,6 @@ public class CommandLineParser {
         playerPackage = playerP;
     }
 
-    public String getMazeFolder() {
-        return mazeFolder;
-    }
-
-    public String getPlayerPackage() {
-        return playerPackage;
-    }
 
     public Set<Class<? extends IPlayer>> getPlayers() {
         return playersClasses;
@@ -43,7 +38,7 @@ public class CommandLineParser {
 
         File file = new File(mazeFolder);
 
-        for (File fileName : Objects.requireNonNull(file.listFiles((dir, name) -> name.endsWith(".txt")))){
+        for (File fileName : Objects.requireNonNull(file.listFiles((dir, name) -> name.endsWith(".txt")))) {
             MazeParser mazeParser = new MazeParser();
             Maze maze = mazeParser.getMaze(fileName);
             if (maze != null) {
@@ -52,40 +47,33 @@ public class CommandLineParser {
         }
     }
 
-    private void initPlayersClasses() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException{
+    private void initPlayersClasses() {
 
         Reflections reflections = new Reflections("player");
         playersClasses = reflections.getSubTypesOf(IPlayer.class);
-
-
     }
 
-
-
-    public void init()throws Exception{
+    public void init() {
 
         try {
             initPlayersClasses();
             loaderMazes();
 
+        } catch (Exception e) {
+            allFailureMazes.add(e);
+            System.out.println(allFailureMazes + " " +  "Player/Maze not loaded!!!!");
+            System.out.println(" ");
         }
-        catch (Exception e){
-            throw new Exception("Player/Maze not loaded!!!!",e);
-
-
-        }
-
     }
-
 
     public boolean validateArguments(String[] args) {
 
-        if(args.length == 0) {
+        if (args.length == 0) {
             System.out.println("No arguments in command line");
             return false;
         }
 
-        if(args.length % 2 !=0) {
+        if (args.length % 2 != 0) {
             System.out.println("Incorrect number of arguments in command line");
             return false;
         }
@@ -113,18 +101,22 @@ public class CommandLineParser {
                 if (!args[4].equals("-threads")) {
                     System.out.println("Incorrect threads argument in command line. Should be '-threads'");
                     return false;
-                }else if (!(Integer.parseInt(args[5]) > 0)){
+                } else if (!(Integer.parseInt(args[5]) > 0)) {
                     System.out.println("Incorrect number of threads. Should be larger than 0");
                     return false;
                 }
-            }
-            catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("argument should be a valid number larger than 0");
                 return false;
             }
-
         }
-
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CommandLineParser{" +
+                "allFailureMazes=" + allFailureMazes +
+                '}';
     }
 }

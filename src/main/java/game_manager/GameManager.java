@@ -7,6 +7,7 @@ import maze.MazeChar;
 import maze.MoveOption;
 import player.PlayerFactory;
 import player.IPlayer;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,9 +30,6 @@ public class GameManager implements Runnable {
     private Map<Location, Integer> bookmarks = new HashMap<>();
     private OutputFile outputFile;
     private int gameResult = 0;
-    private PlayerFactory playerFactory;
-
-
 
 
     public GameManager(Maze maze, IPlayer player) {
@@ -53,17 +51,17 @@ public class GameManager implements Runnable {
         endingLocation = maze.getEndingLocation();
     }
 
+    public Maze getMaze() { return maze; }
+
+    public IPlayer getPlayer() { return player; }
 
     public int getGameResult() { return gameResult; }
 
-    public boolean isOverMaxSteps(){
-        return overMaxSteps;
-    }
+    public boolean isOverMaxSteps() { return overMaxSteps; }
 
     public boolean isHasWon() {
         return hasWon;
     }
-
 
 
     private void setPlayerLocation(Location nextLocation) {
@@ -83,30 +81,24 @@ public class GameManager implements Runnable {
             makeMove(move);
             outputFile.updateMoves(move);
         }
-        if (hasWon){
+        if (hasWon) {
             outputFile.setWin('!');
             //System.out.println("You Have Won!");
             gameResult = steps;
 
-        }else {
+        } else {
             outputFile.setWin('X');
             overMaxSteps = true;
-           // System.out.println("You Have Lost!");
-            //System.out.println("You did not win the maze in the given amount of steps.\n" +
-             //       "Steps used: " + steps + ";\n" +
-               //     "Maximum number of steps given: " + maze.getMaxSteps());
-
             gameResult = -1;
         }
         try {
             outputFile.exportToFile();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Could not export to file");
         }
 
     }
-
 
 
     public void makeMove(MoveOption move) {
@@ -116,26 +108,20 @@ public class GameManager implements Runnable {
             if (charInLocation == WALL) {
                 player.hitWall();
                 if (bookmarks.containsKey(playerLocation)) {
-                 //   System.out.println("You have hit a bookmark at location: " + playerLocation + " with sequence number: " + bookmarks.get(playerLocation));
                     player.hitBookmark(bookmarks.get(playerLocation));
                 }
             } else if (newLocation.equals(endingLocation)) {
-              //  System.out.println("You moved " + move);
                 hasWon = true;
             } else if (move.equals(MoveOption.BOOKMARK)) {
                 bookmarkCount++;
                 bookmarks.put(playerLocation, bookmarkCount);
-              //  System.out.println("You have created a bookmark at location: " + playerLocation + " with sequence number: " + bookmarkCount);
             } else {
-                //System.out.println("You moved " + move);
                 setPlayerLocation(newLocation);
                 if (bookmarks.containsKey(playerLocation)) {
                     player.hitBookmark(bookmarks.get(playerLocation));
                 }
             }
             steps++;
-           // System.out.println("Steps used so far: " + steps);
-          //  maze.printMaze();
         } catch (Exception e) {
             System.out.println("Move is outside maze");
         }
@@ -163,7 +149,5 @@ public class GameManager implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }
